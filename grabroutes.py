@@ -20,7 +20,6 @@ except Exception as e:
     print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
 
-print(data[0])
 routeID = []
 input_dict = json.loads(data)
 for keyVal in input_dict:
