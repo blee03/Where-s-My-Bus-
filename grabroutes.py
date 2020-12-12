@@ -24,11 +24,11 @@ temp = []
 input_dict = json.loads(data)
 for keyVal in input_dict:
     if isinstance(input_dict[keyVal], list):
-        routeID.append(input_dict[keyVal])
+        temp.append(input_dict[keyVal])
 
 routeID = []
-temp2 = routeID[0]
+temp2 = temp[0]
 for i in range(0, len(temp2)):
-    temp.append(routeID[0][i]['RouteId'])
+    temp.append(temp[0][i]['RouteId'])
 print(temp)
 #testing
