@@ -26,3 +26,13 @@ except Exception as e:
     print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
 ####################################
+print(data[1])
+routeID = []
+for i in range(0, len(data)):
+    if isinstance(data[i], str):
+        if data[i].startswith('RouteID:'):
+            routeID.append(data[i])
+            print(data[i])
+
+print(routeID)
+
