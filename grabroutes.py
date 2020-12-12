@@ -40,18 +40,30 @@ def getStopList(routeID):
     }
     params = urllib.parse.urlencode({
         # Request parameters
-        '$format': 'json',
+        '$format': 'json'
     })
 
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
-        conn.request("GET", "/transitiq/Routes(%s})/Stops?%s" % (routeID, params), "{body}", headers)
+        conn.request("GET", "/transitiq/Routes('%s')/Stops?%s" % (routeID, params), "{body}", headers)
         response = conn.getresponse()
         data = response.read()
         print(data)
         conn.close()
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
+    temp = []
+    input_dict = json.loads(data)
+    for keyVal in input_dict:
+        if isinstance(input_dict[keyVal], list):
+            temp.append(input_dict[keyVal])
+    stopID = []
+    temp2 = temp[0]
+    for i in range(0, len(temp2)):
+        stopID.append(temp[0][i]['StopId'])
+    return stopID
     
 routes = getRouteList()
+print(routes[0])
+print(routes)
 getStopList(routes[0])
