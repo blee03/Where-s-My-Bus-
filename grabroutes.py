@@ -31,3 +31,4 @@ temp2 = routeID[0]
 for i in range(0, len(temp2)):
     temp.append(routeID[0][i]['RouteId'])
 print(temp)
+#testing
