@@ -77,34 +77,46 @@ for i in range(0, len(temp2)):
 Lon = []
 for x in range(0, len(temp2)):
     Lon.append(temp[0][x]['Lon'])
-print(Lat[0])
-print(Lon[0])
-print(Lat[1])
-print(Lon[1])
-#check time to location
+#print(Lat[0])
+#print(Lon[0])
+#print(Lat[1])
+#print(Lon[1])
+
 headers = {
     # Request headers
     'Ocp-Apim-Subscription-Key': '617aa4d77c8b4d6e972688da30f0ea01',
 }
 
 params = urllib.parse.urlencode({
-    # Request parameters
-    'lat1': Lat[0],
-    'lon1': Lon[0],
-    'lat2': Lat[1],
-    'lon2': Lon[1],
-    #'startTime': '{string}',
-    #'$format': '{String}',
-    #'$orderby': '{String}',
 })
 
 try:
     conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
-    conn.request("GET", "/transitiq/CalculateItineraryByPoints?%s" % params, "{body}", headers)
+    conn.request("GET", "/transitiq/Vehicles?%s" % params, "{body}", headers)
     response = conn.getresponse()
-    data = response.read()
-    print(data)
+    vehicledata = response.read()
     conn.close()
 except Exception as e:
     print("[Errno {0}] {1}".format(e.errno, e.strerror))
-
+#loops through vehicledata
+temp = []
+input_dict = json.loads(vehicledata)
+for keyVal in input_dict:
+    if isinstance(input_dict[keyVal], list):
+        temp.append(input_dict[keyVal])
+temp2 = temp[0]
+#checks vehicle lat
+vLat = []
+for i in range(0, len(temp2)):
+    vLat.append(temp[0][i]['Latitude'])
+#checks vehicle lon
+vLon = []
+for x in range(0, len(temp2)):
+    vLon.append(temp[0][x]['Longitude'])
+#checks vehicle route id
+vRouteID = []
+for z in range(0, len(temp2)):
+    vRouteID.append(temp[0][z]['RouteId'])
+print(vLat)
+print(vLon)
+print(vRouteID)
