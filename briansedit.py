@@ -44,6 +44,7 @@ headers = {
 
 params = urllib.parse.urlencode({
     # Request parameters
+    '$format': 'json'
 
 })
 x = "/transitiq/Routes('"
@@ -52,8 +53,30 @@ try:
     conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
     conn.request("GET", x+callstop+y % params, "{body}", headers)
     response = conn.getresponse()
-    data = response.read()
-    print(data)
+    stopdata = response.read()
     conn.close()
 except Exception as e:
     print("[Errno {0}] {1}".format(e.errno, e.strerror))
+    
+#grab lat values
+temp = []
+input_dict = json.loads(stopdata)
+for keyVal in input_dict:
+    if isinstance(input_dict[keyVal], list):
+        temp.append(input_dict[keyVal])
+
+Lat = []
+temp2 = temp[0]
+for i in range(0, len(temp2)):
+    Lat.append(temp[0][i]['Lat'])
+
+print(Lat)
+#print lon values
+temp= []
+Lon = []
+temp2 = temp[0]
+for i in range(0, len(temp2)):
+    Lon.append(temp[0][i]['Lon'])
+
+print(Lon)
+
