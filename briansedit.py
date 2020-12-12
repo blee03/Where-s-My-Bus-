@@ -117,6 +117,17 @@ for x in range(0, len(temp2)):
 vRouteID = []
 for z in range(0, len(temp2)):
     vRouteID.append(temp[0][z]['RouteId'])
-print(vLat)
-print(vLon)
-print(vRouteID)
+#print(vLat)
+#print(vLon)
+#print(vRouteID)
+
+class vehicle:
+    def __init__(self):
+        self.id = a
+        self.lat = 0
+        self.lon = 0
+v = []
+vehicletemp = vehicle(vRouteID[0],vLat[0],vLon[0])
+v.append(vehicletemp)
+print(v)
+
