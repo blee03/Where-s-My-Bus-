@@ -20,14 +20,13 @@ except Exception as e:
     print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
 
-print(data[0])
-routeID = []
+temp = []
 input_dict = json.loads(data)
 for keyVal in input_dict:
     if isinstance(input_dict[keyVal], list):
         routeID.append(input_dict[keyVal])
 
-temp = []
+routeID = []
 temp2 = routeID[0]
 for i in range(0, len(temp2)):
     temp.append(routeID[0][i]['RouteId'])
