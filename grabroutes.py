@@ -25,6 +25,11 @@ keyVal = 'RouteId'
 routeID = []
 input_dict = json.loads(data)
 for keyVal in input_dict:
-    routeID.append(input_dict[keyVal])
+    if isinstance(input_dict[keyVal], list):
+        routeID.append(input_dict[keyVal])
 
+temp = []
+for i in range(0, len(routeID)):
+    temp.append(routeID[i][0])
 print(routeID)
+print(temp)
