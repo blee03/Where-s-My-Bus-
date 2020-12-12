@@ -1,3 +1,4 @@
+########### Python 3.2 #############
 import http.client, urllib.request, urllib.parse, urllib.error, base64
 
 headers = {
@@ -10,16 +11,18 @@ params = urllib.parse.urlencode({
     '$filter': '{String}',
     '$top': '{string}',
     '$skip': '{string}',
-    '$format': 'json',
+    '$format': '{String}',
     '$orderby': '{String}',
 })
 
 try:
     conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
-    conn.request("GET", "/transitiq/Routes?%s" % params, "{body}", headers)
+    conn.request("GET", "/transitiq/Stops?%s" % params, "{body}", headers)
     response = conn.getresponse()
     data = response.read()
     print(data)
     conn.close()
 except Exception as e:
     print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+####################################
