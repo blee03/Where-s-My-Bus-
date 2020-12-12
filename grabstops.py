@@ -8,11 +8,11 @@ headers = {
 
 params = urllib.parse.urlencode({
     # Request parameters
-    '$filter': '{String}',
-    '$top': '{string}',
-    '$skip': '{string}',
-    '$format': '{String}',
-    '$orderby': '{String}',
+    #'$filter': '{String}',
+    #'$top': '{string}',
+    #'$skip': '{string}',
+    #'$format': '{String}',
+    #'$orderby': '{String}',
 })
 
 try:
