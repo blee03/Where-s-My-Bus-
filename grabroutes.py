@@ -21,7 +21,6 @@ except Exception as e:
 
 
 print(data[0])
-keyVal = 'RouteId'
 routeID = []
 input_dict = json.loads(data)
 for keyVal in input_dict:
@@ -29,7 +28,7 @@ for keyVal in input_dict:
         routeID.append(input_dict[keyVal])
 
 temp = []
-for i in range(0, len(routeID)):
-    temp.append(routeID[i][0])
-print(routeID)
+temp2 = routeID[0]
+for i in range(0, len(temp2)):
+    temp.append(routeID[0][i]['RouteId'])
 print(temp)
