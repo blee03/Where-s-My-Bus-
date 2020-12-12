@@ -29,10 +29,13 @@ for keyVal in input_dict:
 routeID = []
 temp2 = temp[0]
 for i in range(0, len(temp2)):
-    routeID.append(temp[0][i]['RouteId'])
+    if temp[0][i]['RouteId'].startswith('Ho'):
+        routeID.append(temp[0][i]['RouteId'])
 
 #call stop using id
 callstop = str(routeID[0])
+
+print(routeID)
 print(callstop)
 
 import http.client, urllib.request, urllib.parse, urllib.error, base64
