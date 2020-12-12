@@ -70,11 +70,38 @@ temp2 = temp[0]
 for i in range(0, len(temp2)):
     Lat.append(temp[0][i]['Lat'])
 
-print(Lat)
-#print lon values
+#grab lon values
 Lon = []
 for x in range(0, len(temp2)):
     Lon.append(temp[0][x]['Lon'])
+print(Lat[0])
+print(Lon[0])
+print(Lat[1])
+print(Lon[1])
+#check time to location
+headers = {
+    # Request headers
+    'Ocp-Apim-Subscription-Key': '617aa4d77c8b4d6e972688da30f0ea01',
+}
 
-print(Lon)
+params = urllib.parse.urlencode({
+    # Request parameters
+    'lat1': Lat[0],
+    'lon1': Lon[0],
+    'lat2': Lat[1],
+    'lon2': Lon[1],
+    #'startTime': '{string}',
+    #'$format': '{String}',
+    #'$orderby': '{String}',
+})
+
+try:
+    conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
+    conn.request("GET", "/transitiq/CalculateItineraryByPoints?%s" % params, "{body}", headers)
+    response = conn.getresponse()
+    data = response.read()
+    print(data)
+    conn.close()
+except Exception as e:
+    print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
