@@ -29,6 +29,6 @@ for keyVal in input_dict:
 routeID = []
 temp2 = temp[0]
 for i in range(0, len(temp2)):
-    temp.append(temp[0][i]['RouteId'])
-print(temp)
+    routeID.append(temp[0][i]['RouteId'])
+print(routeID)
 #testing
