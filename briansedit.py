@@ -72,11 +72,9 @@ for i in range(0, len(temp2)):
 
 print(Lat)
 #print lon values
-temp= []
 Lon = []
-temp2 = temp[0]
-for i in range(0, len(temp2)):
-    Lon.append(temp[0][i]['Lon'])
+for x in range(0, len(temp2)):
+    Lon.append(temp[0][x]['Lon'])
 
 print(Lon)
 
