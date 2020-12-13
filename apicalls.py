@@ -64,3 +64,83 @@ def grab_stops(val):
         stopID.append(temp[0][i]['StopId'])
 
     return stopID
+
+
+def bus_ETA(val, route_num):
+    stopIDs = grab_stops(route_num)
+    callstop = stopIDs[va]
+    try:
+        conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
+        conn.request("GET", "/transitiq/Stops('"+callstop+"')/Routes?%s" % params, "{body}", headers)
+        response = conn.getresponse()
+        rfs = response.read()
+        conn.close()
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+    temp = []
+    print(rfs)
+    input_dict = json.loads(rfs)
+    for keyVal in input_dict:
+        if isinstance(input_dict[keyVal], list):
+            temp.append(input_dict[keyVal])
+    #isolate routes
+    rfsID = []
+    temp2 = temp[0]
+    for i in range(0, len(temp2)):
+        if temp[0][i]['RouteId'].startswith('Ho'):
+            rfsID.append(temp[0][i]['RouteId'])
+    #grab vehicle data
+    print(rfsID)
+    try:
+        conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
+        conn.request("GET", "/transitiq/Vehicles?%s" % params, "{body}", headers)
+        response = conn.getresponse()
+        vehicledata = response.read()
+        conn.close()
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+    #check for
+    temp = []
+    input_dict = json.loads(vehicledata)
+    for keyVal in input_dict:
+        if isinstance(input_dict[keyVal], list):
+            temp.append(input_dict[keyVal])
+    temp2 = temp[0]
+    #vehicle dictionary for index in original vehicle data
+    vehicle_dict = {}
+    count = 0
+    for i in range(0, len(temp[0])):
+        vehicle_dict[(temp[0][i]['RouteId'])] = count
+        count += 1
+
+        eta_dict = {}
+        for ID in rfsID:
+            current_time = temp[0][vehicle_dict[ID]]['VehicleReportTime']
+    
+        params = urllib.parse.urlencode({
+            # Request parameters
+            '$format': 'json',
+        })
+        try:
+            conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
+            conn.request("GET", "/transitiq/Stops('%s')/Arrivals?%s" % (StopID[val], params), "{body}", headers)
+            response = conn.getresponse()
+            arrival_data = response.read()
+            #print(arrivals)
+            conn.close()
+        except Exception as e:
+            print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        arrivals = []
+        input_dict = json.loads(arrival_data)
+        for keyVal in input_dict:
+            if isinstance(input_dict[keyVal], list):
+                arrivals.append(input_dict[keyVal])
+        print(arrivals)
+        for i in range(0, len(arrivals[0])):
+            if arrivals[0][i]['RouteId'] == ID:
+                temp_time = arrivals[0][i]['ScheduledTime']
+    
+        eta_dict[temp[0][vehicle_dict[ID]]['DestinationName']] = temp_time
+
+        return eta_dict
