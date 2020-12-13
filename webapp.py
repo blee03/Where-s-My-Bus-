@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from apicalls import grab_routes, grab_stops, 
+from apicalls import grab_routes, grab_stops, bus_ETA 
 app = Flask(__name__)
 val = 0
 val2 = 0
@@ -25,7 +25,7 @@ def movetoeta():
 @app.route('/eta')
 def eta():
     arrivals = []
-    arrivals=grab_stops(int(val2))
+    arrivals=bus_ETA(int(val2))
     return render_template('eta.html', arrivals=arrivals)
 if __name__ == '__main__':
     app.run()
