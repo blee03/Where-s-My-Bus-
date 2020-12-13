@@ -131,28 +131,30 @@ for ID in rfsID:
     start_time = temp[0][vehicle_dict[ID]]['TripStartTimeUTC']
     bus_lon = temp[0][vehicle_dict[ID]]['Longitude']
     bus_lat = temp[0][vehicle_dict[ID]]['Latitude']
-    calculated_time = 
     params = urllib.parse.urlencode({
     # Request parameters
         'lat1': bus_lat,
-        'lon1': bus_,
-        'lat2': '{string}',
-        'lon2': '{string}',
-        'startTime': '{string}',
-        '$format': '{String}',
-        '$orderby': '{String}',
+        'lon1': bus_lon,
+        'lat2': Lat[val],
+        'lon2': Lon[val],
+        'startTime': start_time,
+        '$format': 'json',
     })
-
+    print('$')
+    print(bus_lat)
+    print(bus_lon)
+    print(Lat[val])
+    print(Lon[val])
+    print(start_time)
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
         conn.request("GET", "/transitiq/CalculateItineraryByPoints?%s" % params, "{body}", headers)
         response = conn.getresponse()
         data = response.read()
-        print(data)
+        #print(data)
         conn.close()
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
-    eta_dict[
 
 
 
