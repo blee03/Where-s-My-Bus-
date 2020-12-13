@@ -1,6 +1,6 @@
 
 import http.client, urllib.request, urllib.parse, urllib.error, base64, json
-
+from webapp import usernumber
 headers = {
     # Request headers
     'Ocp-Apim-Subscription-Key': '617aa4d77c8b4d6e972688da30f0ea01',
@@ -33,10 +33,10 @@ for i in range(0, len(temp2)):
         routeID.append(temp[0][i]['RouteId'])
         routeName.append(temp[0][i]['LongName'])
 #ask for specific route
-val = (int(input("Input RouteID (numberical values only, starting from 0: ")))
-print("RouteId: "+routeID[val])
-print("RouteId: "+routeName[val])
-callroute = routeID[val]
+#val = (int(input("Input RouteID (numberical values only, starting from 0: ")))
+#print("RouteId: "+routeID[val])
+#print("RouteId: "+routeName[val])
+callroute = routeID[int(usernumber)]
 #grab stop data for specific route
 x = "/transitiq/Routes('"
 y = "')/Stops?%s"
@@ -73,12 +73,12 @@ StopName = []
 for i in range(0, len(temp2)):
     StopName.append(temp[0][i]['Name'])
 #ask for specific stop
-val = int(input("Input StopID (numberical values only, starting from 0: "))
-callstop = StopID[val]
-print("Name: "+StopName[val])
-print("StopId: "+StopID[val])
-print("Latitude: "+str(Lat[val]))
-print("Longitude: "+str(Lon[val]))
+#val = int(input("Input StopID (numberical values only, starting from 0: "))
+callstop = StopID[0]
+#print("Name: "+StopName[val])
+#print("StopId: "+StopID[val])
+#print("Latitude: "+str(Lat[val]))
+#print("Longitude: "+str(Lon[val]))
 #grab routes coming through given stop
 try:
     conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
@@ -90,7 +90,7 @@ except Exception as e:
     print("[Errno {0}] {1}".format(e.errno, e.strerror))
 #check for
 temp = []
-print(rfs)
+#print(rfs)
 input_dict = json.loads(rfs)
 for keyVal in input_dict:
     if isinstance(input_dict[keyVal], list):
@@ -102,7 +102,7 @@ for i in range(0, len(temp2)):
     if temp[0][i]['RouteId'].startswith('Ho'):
         rfsID.append(temp[0][i]['RouteId'])
 #grab vehicle data
-print(rfsID)
+#print(rfsID)
 try:
     conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
     conn.request("GET", "/transitiq/Vehicles?%s" % params, "{body}", headers)
