@@ -1,4 +1,5 @@
 import http.client, urllib.request, urllib.parse, urllib.error, base64, json
+from webapp import var
 headers = {
     # Request headers
     'Ocp-Apim-Subscription-Key': '617aa4d77c8b4d6e972688da30f0ea01',
@@ -35,3 +36,4 @@ def grab_routes(Type):
         return routeName
     if Type == '2':
         return routeID
+print(var)

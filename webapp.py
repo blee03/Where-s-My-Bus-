@@ -8,8 +8,8 @@ def routes():
     routelist = grab_routes('1')
     return render_template('index.html', routelist=routelist)
 
-@app.route('/' methods=['POST'])
-def userroute():
+@app.route('/', methods=['POST'])
+def user_route():
     var = request.form['routechosen']
     return var
 #stop page render 
