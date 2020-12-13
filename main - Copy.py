@@ -1,3 +1,4 @@
+
 import http.client, urllib.request, urllib.parse, urllib.error, base64, json
 
 headers = {
@@ -79,11 +80,9 @@ print("StopId: "+StopID[val])
 print("Latitude: "+str(Lat[val]))
 print("Longitude: "+str(Lon[val]))
 #grab routes coming through given stop
-x = "/transitiq/Routes('"
-y = "')/Stops?%s"
 try:
     conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
-    conn.request("GET", "/transitiq/Stops('"+x+callstop+y+"')/Routes?%s" % params, "{body}", headers)
+    conn.request("GET", "/transitiq/Stops('"+callstop+"')/Routes?%s" % params, "{body}", headers)
     response = conn.getresponse()
     rfs = response.read()
     conn.close()
@@ -91,6 +90,7 @@ except Exception as e:
     print("[Errno {0}] {1}".format(e.errno, e.strerror))
 #check for
 temp = []
+print(rfs)
 input_dict = json.loads(rfs)
 for keyVal in input_dict:
     if isinstance(input_dict[keyVal], list):
@@ -102,6 +102,7 @@ for i in range(0, len(temp2)):
     if temp[0][i]['RouteId'].startswith('Ho'):
         rfsID.append(temp[0][i]['RouteId'])
 #grab vehicle data
+print(rfsID)
 try:
     conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
     conn.request("GET", "/transitiq/Vehicles?%s" % params, "{body}", headers)
@@ -123,4 +124,4 @@ count = 0
 for i in range(0, len(temp[0])):
     vehicle_dict[(temp[0][i]['RouteId'])] = count
     count += 1
-print(vehicle_dict)
+#print(vehicle_dict)
