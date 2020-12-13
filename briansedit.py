@@ -122,10 +122,10 @@ for z in range(0, len(temp2)):
 #print(vRouteID)
 
 class vehicle:
-    def __init__(self):
-        self.id = a
-        self.lat = 0
-        self.lon = 0
+    def __init__(self, Id, lat, lon):
+        self.id = Id
+        self.lat = lat
+        self.lon = lon
 v = []
 vehicletemp = vehicle(vRouteID[0],vLat[0],vLon[0])
 v.append(vehicletemp)
