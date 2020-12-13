@@ -99,4 +99,16 @@ v = []
 vehicletemp = vehicle(vRouteID[0],vLat[0],vLon[0])
 v.append(vehicletemp)
 print(v)
+#START OF MAIN CODE (Stop from list -> list routes -> buses that correlate -> their etas to the stop)
+
+    
+vehicle_dict = {}
+count = 0
+print(temp)
+for i in range(0, len(temp[0])):
+    vehicle_dict[(temp[0][i]['RouteId'])] = count
+    count += 1
+
+print(vehicle_dict)
+
 
