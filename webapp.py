@@ -16,7 +16,7 @@ def movetostops():
 @app.route('/stops')
 def stops():
     stoplist = []
-    stoplist=grab_stops(int(val),'1')
+    stoplist=grab_stops(int(val),'1')[0]
     return render_template('location.html', stoplist=stoplist)
 @app.route('/return', methods=['POST'])
 def movetoeta():
@@ -25,7 +25,7 @@ def movetoeta():
 @app.route('/eta')
 def eta():
     arrivals = []
-    arrivals=bus_ETA(int(val2))
+    arrivals=bus_ETA(int(val2), grab_stops(int(val), '1')[1])
     return render_template('eta.html', arrivals=arrivals)
 if __name__ == '__main__':
     app.run()

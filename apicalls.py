@@ -7,10 +7,13 @@ headers = {
 params = urllib.parse.urlencode({
     '$format': 'json'
 })
-route_num = 0
+
 #grab route data
 def grab_routes(Type):
     routedata= []
+    params = urllib.parse.urlencode({
+        '$format': 'json'
+    })
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
         conn.request("GET", "/transitiq/Routes?%s" % params, "{body}", headers)
@@ -29,8 +32,7 @@ def grab_routes(Type):
     routeID = []
     routeName = []
     route_dict = {}
-    temp2 = temp[0]
-    for i in range(0, len(temp2)):
+    for i in range(0, len(temp[0])):
         if temp[0][i]['RouteId'].startswith('Ho') and temp[0][i]['RouteType'] == 'Bus':
             routeID.append(temp[0][i]['RouteId'])
             routeName.append(temp[0][i]['LongName'])
@@ -47,6 +49,9 @@ def grab_stops(val, Type):
     routeIDs = grab_routes("2")
     callroute = routeIDs[val]
     route_num = val
+    params = urllib.parse.urlencode({
+        '$format': 'json'
+    })
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
         conn.request("GET", x+callroute+y % params, "{body}", headers)
@@ -71,24 +76,28 @@ def grab_stops(val, Type):
         stop_names.append(temp[0][i]['Name'])
 
     if Type == '1':
-        return stop_names
+        return stop_names, val
     elif Type == '2':
-        return stopID
+        return stopID, val
 
-def bus_ETA(val):
-    stopIDs = grab_stops(route_num, '2')
+def bus_ETA(val, route_num):
+    stopIDs = grab_stops(route_num, '2')[0]
     callstop = stopIDs[val]
+    rfs = bytearray()
+    params = urllib.parse.urlencode({
+        '$format': 'json'
+    })
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
         conn.request("GET", "/transitiq/Stops('"+callstop+"')/Routes?%s" % params, "{body}", headers)
         response = conn.getresponse()
         rfs = response.read()
         conn.close()
+        print(rfs)
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(e)
 
     temp = []
-    print(rfs)
     input_dict = json.loads(rfs)
     for keyVal in input_dict:
         if isinstance(input_dict[keyVal], list):
@@ -100,7 +109,6 @@ def bus_ETA(val):
         if temp[0][i]['RouteId'].startswith('Ho'):
             rfsID.append(temp[0][i]['RouteId'])
     #grab vehicle data
-    print(rfsID)
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
         conn.request("GET", "/transitiq/Vehicles?%s" % params, "{body}", headers)
@@ -124,9 +132,9 @@ def bus_ETA(val):
         vehicle_dict[(temp[0][i]['RouteId'])] = count
         count += 1
 
-        eta_dict = {}
-        for ID in rfsID:
-            current_time = temp[0][vehicle_dict[ID]]['VehicleReportTime']
+    eta_dict = {}
+    for ID in rfsID:
+        current_time = temp[0][vehicle_dict[ID]]['VehicleReportTime']
     
         params = urllib.parse.urlencode({
             # Request parameters
@@ -134,23 +142,25 @@ def bus_ETA(val):
         })
         try:
             conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
-            conn.request("GET", "/transitiq/Stops('%s')/Arrivals?%s" % (StopID[val], params), "{body}", headers)
+            conn.request("GET", "/transitiq/Stops('%s')/Arrivals?%s" % (stopIDs[val], params), "{body}", headers)
             response = conn.getresponse()
             arrival_data = response.read()
             #print(arrivals)
             conn.close()
         except Exception as e:
-            print("[Errno {0}] {1}".format(e.errno, e.strerror))
+            raise e
+        
+       
         arrivals = []
+        print(arrivals)
         input_dict = json.loads(arrival_data)
         for keyVal in input_dict:
             if isinstance(input_dict[keyVal], list):
                 arrivals.append(input_dict[keyVal])
-        print(arrivals)
         for i in range(0, len(arrivals[0])):
             if arrivals[0][i]['RouteId'] == ID:
                 temp_time = arrivals[0][i]['ScheduledTime']
         
         eta_dict[route_dict[ID]] = temp_time
 
-        return eta_dict
+    return eta_dict
