@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from apicalls import grab_routes
+from flask import Flask, render_template, request, redirect
+from apicalls import grab_routes, grab_stops
 app = Flask(__name__)
 #route page render
 @app.route('/')
@@ -10,12 +10,16 @@ def routes():
 
 @app.route('/', methods=['POST'])
 def user_route():
-    var = request.form['routechosen']
-    return var
-#stop page render 
-#@app.route('/stops')
-#def stops():
-    #return render_template('stops.html')
+    val = request.form['routechosen']
+    return val
+@app.route('/move', methods=['POST'])
+def movetostops():
+    return redirect('/stops')
+@app.route('/stops')
+def stops():
+    stoplist = []
+    stoplist=grab_stops(user_route())
+    return render_template('location.html', stoplist=stoplist)
 
 if __name__ == '__main__':
     app.run()
