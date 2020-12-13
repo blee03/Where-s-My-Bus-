@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <style>
-    body {text-align:center;
-          background-color: rgb(63, 107, 107);
-        }
+form {
+text-align: center;
+}
+h1 {
+margin-top: 350px;
+text-align:center;
+}
+p {
+margin-right: 30px;
+margin-left:30px;
+margin-top: 10px;
+}
+h3 {
+margin-left: 30px;
+margin-top: 300px;
+}
+#form {
+height: 30px;
+width:800px;
+font-size: 14px;
+}
+#click {
+height:35px;
+font-size: 18px;
 </style>
 <head>
     <meta charset ="UTF-8">
-    <title>When Will My Bus Arrive?</title>
+    <title>Where's My Bus?!?!</title>
 </head>
-    
-    <h1>Hack TJ 2020: Where's My Bus?!?!</h1>
-    <h2>By: Ethan Lau, Brian Lee, & Vincent Song</h2>
-    <p>{{ routelist }}</p>
-    <p>Find out what time your bus will arrive accounting for traffic.</p>
 <body>
-    <img src="metrobus.jpg" width="500" height="267" alt="Houston Metro Bus"/>
-</body>
-<div>
-<body>
+<h1>Where's My Bus?!?!</h1>
 	<form action="/move" method="post">
-		<input type="text" name="route_chosen"></input>
-		<input type="submit" value="find times!"></input>
+		<input id='form' type="text" name="route_chosen"></input>
+		<input id='click' type="submit" value="Find Stops!"></input>
 	</form>
-</form>
+<h3>The current serviced routes are listed below:</h3>
+<p>{{ routelist }}</p>
 </body>
 </div>
 </html>
