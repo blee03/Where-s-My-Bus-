@@ -37,7 +37,7 @@ def eta():
     arrivals = []
     with open('values.txt') as f:
         value_data = json.load(f)
-    arrivals=bus_ETA(value_data['val2'], grab_stops(value_data['val'], '1')[1])
+    arrivals=bus_ETA(int(value_data['val2']), grab_stops(int(value_data['val']), '1')[1])
     return render_template('eta.html', arrivals=arrivals)
 if __name__ == '__main__':
     app.run()
