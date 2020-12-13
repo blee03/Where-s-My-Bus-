@@ -40,7 +40,7 @@ def grab_routes(Type):
     elif Type == '3':
         return route_dict
 
-def grab_stops(val):
+def grab_stops(val, Type):
     x = "/transitiq/Routes('"
     y = "')/Stops?%s"
     routeIDs = grab_routes("2")
@@ -62,12 +62,16 @@ def grab_stops(val):
 
 #isolate stopsIDS
     stopID = []
+    stop_names = []
     temp2 = temp[0]
     for i in range(0, len(temp2)):
         stopID.append(temp[0][i]['StopId'])
+        stop_names.append(temp[0][i]['Name'])
 
-    return stopID
-
+    if Type == '1':
+        return stop_names
+    elif Type == '2':
+        return stopID
 
 def bus_ETA(val, route_num):
     stopIDs = grab_stops(route_num)
