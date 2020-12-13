@@ -29,11 +29,11 @@ routeID = []
 routeName = []
 temp2 = temp[0]
 for i in range(0, len(temp2)):
-    if temp[0][i]['RouteId'].startswith('Ho'):
+    if temp[0][i]['RouteId'].startswith('Ho') and temp[0][i]['RouteType'] == 'Bus':
         routeID.append(temp[0][i]['RouteId'])
         routeName.append(temp[0][i]['LongName'])
 #ask for specific route
-val = (int(input("Input RouteID (numberical values only, starting from 0: ")))
+val = (int(input("Input RouteID (numberical values only, starting from 0:"+((str(len(routeID)-1)) if len(routeID) > 0 else '0'))))
 print("RouteId: "+routeID[val])
 print("RouteId: "+routeName[val])
 callroute = routeID[val]
@@ -73,7 +73,7 @@ StopName = []
 for i in range(0, len(temp2)):
     StopName.append(temp[0][i]['Name'])
 #ask for specific stop
-val = int(input("Input StopID (numberical values only, starting from 0: "))
+val = int(input("Input StopID (numberical values only, starting from 0:"+((str(len(StopID)-1)) if len(StopID) > 0 else '0')))
 callstop = StopID[val]
 print("Name: "+StopName[val])
 print("StopId: "+StopID[val])
@@ -126,7 +126,6 @@ for i in range(0, len(temp[0])):
     count += 1
 
 eta_dict = {}
-
 for ID in rfsID:
     current_time = temp[0][vehicle_dict[ID]]['VehicleReportTime']
     
