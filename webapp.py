@@ -3,8 +3,12 @@ from main import callroute
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
+def grabroutenames():
     test = callroute
-    return render_template('index.html', test = test)
+@app.route('/signup', methods = ['POST'])
+def grabnumber():
+    usernumber = request.form['routenumber']
+    return redirect('/')
+
 if __name__ == '__main__':
     app.run()
