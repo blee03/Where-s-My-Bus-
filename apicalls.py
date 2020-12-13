@@ -44,7 +44,7 @@ def grab_stops(val):
     x = "/transitiq/Routes('"
     y = "')/Stops?%s"
     routeIDs = grab_routes("2")
-    callroute = routeID[val]
+    callroute = routeIDs[val]
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
         conn.request("GET", x+callroute+y % params, "{body}", headers)
