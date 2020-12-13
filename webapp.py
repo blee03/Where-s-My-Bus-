@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from apicalls import grab_routes, grab_stops, bus_ETA 
+import json
 app = Flask(__name__)
-val = 0
-val2 = 0
 #route page render
 @app.route('/')
 def routes():
@@ -12,20 +11,33 @@ def routes():
 @app.route('/move', methods=['POST'])
 def movetostops():
     val = request.form['route_chosen']
+    value = {'val': val, 'val2': 0} 
+    with open('values.txt', 'w') as json_file:
+        json.dump(value, json_file)
+    print(val)
     return redirect('/stops')
 @app.route('/stops')
 def stops():
     stoplist = []
-    stoplist=grab_stops(int(val),'1')[0]
+    with open('values.txt') as f:
+        value_data = json.load(f) 
+    stoplist=grab_stops(int(value_data['val']),'1')[0]
     return render_template('location.html', stoplist=stoplist)
 @app.route('/return', methods=['POST'])
 def movetoeta():
     val2 = request.form['stop_chosen']
+    with open('values.txt') as f:
+        value_data = json.load(f)
+    value_data['val2'] = val2
+    with open('values.txt', 'w') as json_file:
+        json.dump(value_data, json_file)
     return redirect('/eta')
 @app.route('/eta')
 def eta():
     arrivals = []
-    arrivals=bus_ETA(int(val2), grab_stops(int(val), '1')[1])
+    with open('values.txt') as f:
+        value_data = json.load(f)
+    arrivals=bus_ETA(value_data['val2'], grab_stops(value_data['val'], '1')[1])
     return render_template('eta.html', arrivals=arrivals)
 if __name__ == '__main__':
     app.run()
