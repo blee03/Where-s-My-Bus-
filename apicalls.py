@@ -26,16 +26,19 @@ def grab_routes(Type):
 #isolate routes
     routeID = []
     routeName = []
+    route_dict = {}
     temp2 = temp[0]
     for i in range(0, len(temp2)):
         if temp[0][i]['RouteId'].startswith('Ho') and temp[0][i]['RouteType'] == 'Bus':
             routeID.append(temp[0][i]['RouteId'])
             routeName.append(temp[0][i]['LongName'])
+            route_dict[temp[0][i]['RouteId']] = temp[0][i]['LongName']
     if Type == '1':
         return routeName
-    if Type == '2':
+    elif Type == '2':
         return routeID
-
+    elif Type == '3':
+        return route_dict
 
 def grab_stops(val):
     x = "/transitiq/Routes('"
@@ -110,6 +113,7 @@ def bus_ETA(val, route_num):
     #vehicle dictionary for index in original vehicle data
     vehicle_dict = {}
     count = 0
+    route_dict = grab_routes('3')
     for i in range(0, len(temp[0])):
         vehicle_dict[(temp[0][i]['RouteId'])] = count
         count += 1
@@ -140,7 +144,7 @@ def bus_ETA(val, route_num):
         for i in range(0, len(arrivals[0])):
             if arrivals[0][i]['RouteId'] == ID:
                 temp_time = arrivals[0][i]['ScheduledTime']
-    
-        eta_dict[temp[0][vehicle_dict[ID]]['DestinationName']] = temp_time
+        
+        eta_dict[route_dict[ID]] = temp_time
 
         return eta_dict
