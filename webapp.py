@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect
-from apicalls import grab_routes, grab_stops
+from apicalls import grab_routes, grab_stops, 
 app = Flask(__name__)
 val = 0
+val2 = 0
 #route page render
 @app.route('/')
 def routes():
@@ -15,8 +16,16 @@ def movetostops():
 @app.route('/stops')
 def stops():
     stoplist = []
-    stoplist=grab_stops(int(val))
+    stoplist=grab_stops(int(val),'1')
     return render_template('location.html', stoplist=stoplist)
-
+@app.route('/return', methods=['POST'])
+def movetoeta():
+    val2 = str(request.form['stop_chosen'])
+    return redirect('/eta')
+@app.route('/eta')
+def eta():
+    arrivals = []
+    arrivals=grab_stops(int(val2))
+    return render_template('eta.html', arrivals=arrivals)
 if __name__ == '__main__':
     app.run()

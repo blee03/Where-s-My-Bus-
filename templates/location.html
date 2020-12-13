@@ -2,5 +2,9 @@
 <head><h1>Your Bus Will Arrive At...</h1></head>
 <body>
 <p>{{ stoplist }}</p>
+<form action="/return" method="post">
+		<input type="text" name="stop_chosen"></input>
+		<input type="submit" value="find times!"></input>
+	</form>
 </body>
 </html>
