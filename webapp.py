@@ -11,7 +11,7 @@ def routes():
     return render_template('index.html', routelist=routelist)
 @app.route('/move', methods=['POST'])
 def movetostops():
-    val = str(request.form['route_chosen'])
+    val = request.form['route_chosen']
     return redirect('/stops')
 @app.route('/stops')
 def stops():
@@ -20,7 +20,7 @@ def stops():
     return render_template('location.html', stoplist=stoplist)
 @app.route('/return', methods=['POST'])
 def movetoeta():
-    val2 = str(request.form['stop_chosen'])
+    val2 = request.form['stop_chosen']
     return redirect('/eta')
 @app.route('/eta')
 def eta():

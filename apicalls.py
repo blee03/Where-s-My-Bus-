@@ -7,8 +7,10 @@ headers = {
 params = urllib.parse.urlencode({
     '$format': 'json'
 })
+route_num = 0
 #grab route data
 def grab_routes(Type):
+    routedata= []
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
         conn.request("GET", "/transitiq/Routes?%s" % params, "{body}", headers)
@@ -39,8 +41,6 @@ def grab_routes(Type):
         return routeID
     elif Type == '3':
         return route_dict
-
-route_num = 0
 def grab_stops(val, Type):
     x = "/transitiq/Routes('"
     y = "')/Stops?%s"
@@ -76,7 +76,7 @@ def grab_stops(val, Type):
         return stopID
 
 def bus_ETA(val):
-    stopIDs = grab_stops(route_num)
+    stopIDs = grab_stops(route_num, '2')
     callstop = stopIDs[val]
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
