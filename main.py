@@ -25,19 +25,23 @@ for keyVal in input_dict:
         temp.append(input_dict[keyVal])
 #isolate routes
 routeID = []
+routeName = []
 temp2 = temp[0]
 for i in range(0, len(temp2)):
     if temp[0][i]['RouteId'].startswith('Ho'):
         routeID.append(temp[0][i]['RouteId'])
+        routeName.append(temp[0][i]['LongName'])
 #ask for specific route
-val = input("Input RouteID (numberical values only, starting from 0: ")
-callstop = routeID[int(val)]
+val = (int(input("Input RouteID (numberical values only, starting from 0: ")))
+print("RouteId: "+routeID[val])
+print("RouteId: "+routeName[val])
+callroute = routeID[val]
 #grab stop data for specific route
 x = "/transitiq/Routes('"
 y = "')/Stops?%s"
 try:
     conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
-    conn.request("GET", x+callstop+y % params, "{body}", headers)
+    conn.request("GET", x+callroute+y % params, "{body}", headers)
     response = conn.getresponse()
     stopdata = response.read()
     conn.close()
@@ -59,8 +63,35 @@ for i in range(0, len(temp2)):
 Lon = []
 for x in range(0, len(temp2)):
     Lon.append(temp[0][x]['Lon'])
-print(Lon)
-print(Lat)
+#isolate stopID for alls stops
+StopID = []
+for i in range(0, len(temp2)):
+    StopID.append(temp[0][i]['StopId'])
+#isolate name for alls stops
+StopName = []
+for i in range(0, len(temp2)):
+    StopName.append(temp[0][i]['Name'])
+#ask for specific stop
+val = int(input("Input StopID (numberical values only, starting from 0: "))
+callstop = StopID[val]
+print("Name: "+StopName[val])
+print("StopId: "+StopID[val])
+print("Latitude: "+str(Lat[val]))
+print("Longitude: "+str(Lon[val]))
+
+x = "/transitiq/Routes('"
+y = "')/Stops?%s"
+try:
+    conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
+    conn.request("GET", "/transitiq/Stops('{id}')/Routes?%s" % params, "{body}", headers)
+    response = conn.getresponse()
+    data = response.read()
+    print(data)
+    conn.close()
+except Exception as e:
+    print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+
 #grab vehicle data
 try:
     conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
