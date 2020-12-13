@@ -1,10 +1,11 @@
 from flask import Flask, render_template
-import apicalls
+from apicalls import grab_routes
 app = Flask(__name__)
 #route page render
 @app.route('/')
 def routes():
-    routelist = grab_routes("1")
+    routelist = []
+    routelist = grab_routes('1')
     return render_template('index.html', routelist=routelist)
 
 #stop page render 
