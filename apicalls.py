@@ -40,11 +40,13 @@ def grab_routes(Type):
     elif Type == '3':
         return route_dict
 
+route_num = 0
 def grab_stops(val, Type):
     x = "/transitiq/Routes('"
     y = "')/Stops?%s"
     routeIDs = grab_routes("2")
     callroute = routeIDs[val]
+    route_num = val
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
         conn.request("GET", x+callroute+y % params, "{body}", headers)
@@ -73,9 +75,9 @@ def grab_stops(val, Type):
     elif Type == '2':
         return stopID
 
-def bus_ETA(val, route_num):
+def bus_ETA(val):
     stopIDs = grab_stops(route_num)
-    callstop = stopIDs[va]
+    callstop = stopIDs[val]
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
         conn.request("GET", "/transitiq/Stops('"+callstop+"')/Routes?%s" % params, "{body}", headers)
