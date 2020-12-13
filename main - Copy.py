@@ -128,33 +128,31 @@ for i in range(0, len(temp[0])):
 eta_dict = {}
 
 for ID in rfsID:
-    start_time = temp[0][vehicle_dict[ID]]['TripStartTimeUTC']
-    bus_lon = temp[0][vehicle_dict[ID]]['Longitude']
-    bus_lat = temp[0][vehicle_dict[ID]]['Latitude']
+    current_time = temp[0][vehicle_dict[ID]]['VehicleReportTime']
+    
     params = urllib.parse.urlencode({
     # Request parameters
-        'lat1': bus_lat,
-        'lon1': bus_lon,
-        'lat2': Lat[val],
-        'lon2': Lon[val],
-        'startTime': start_time,
         '$format': 'json',
     })
-    print('$')
-    print(bus_lat)
-    print(bus_lon)
-    print(Lat[val])
-    print(Lon[val])
-    print(start_time)
     try:
         conn = http.client.HTTPSConnection('hacktj2020api.eastbanctech.com')
-        conn.request("GET", "/transitiq/CalculateItineraryByPoints?%s" % params, "{body}", headers)
+        conn.request("GET", "/transitiq/Stops('%s')/Arrivals?%s" % (StopID[val], params), "{body}", headers)
         response = conn.getresponse()
-        data = response.read()
-        #print(data)
+        arrival_data = response.read()
+        #print(arrivals)
         conn.close()
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
+    arrivals = []
+    input_dict = json.loads(arrival_data)
+    for keyVal in input_dict:
+        if isinstance(input_dict[keyVal], list):
+            arrivals.append(input_dict[keyVal])
+    print(arrivals)
+    for i in range(0, len(arrivals[0])):
+        if arrivals[0][i]['RouteId'] == ID:
+            temp_time = arrivals[0][i]['ScheduledTime']
+    
+    eta_dict[temp[0][vehicle_dict[ID]]['DestinationName']] = temp_time
 
-
-
+print(eta_dict)
