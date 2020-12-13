@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <style>
     body {text-align:center;
-          background-color: rgb(63, 107, 107);
         }
+	h1 {
+margin-top: 350px;
+}
 </style>
 <head>
-    <title>When Will My Bus Arrive?</title>
+    <title>Where's My Bus?!?!</title>
 </head>
 <body>
-    <p>Your bus's estimated time of arrival:</p>
-<h1>{{ arrivals }}</h1>
+    <h1>Here is the busses currently heading to your requested stop: </h1>
+<h3>{{ arrivals }}</h3>
+<h5>Format: {'Destination: Time to Arrival'}</h5>
 </body>
 </html>

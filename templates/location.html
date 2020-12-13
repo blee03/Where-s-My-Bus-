@@ -1,15 +1,46 @@
 <!DOCTYPE html>
+<head>
 <style>
-    body {text-align:center;
-          background-color: rgb(63, 107, 107);
-        }
+form {
+text-align: center;
+}
+h1 {
+margin-top: 350px;
+text-align:center;
+}
+p {
+margin-right: 30px;
+margin-left:30px;
+margin-top: 10px;
+}
+h3 {
+margin-left: 30px;
+margin-top: 300px;
+}
+#form {
+height: 30px;
+width:800px;
+font-size: 14px;
+}
+#click {
+height:35px;
+font-size: 18px;
+}
+h2 {
+text-align: center;
+}
 </style>
-<head><h1>Your Bus Will Arrive At...</h1></head>
+    <meta charset ="UTF-8">
+    <title>Where's My Bus?!?!</title>
+</head>
 <body>
-<p>{{ stoplist }}</p>
+<h1>Where's My Bus?!?!</h1>
+<h2>Now insert a stop number:</h2>
 <form action="/return" method="post">
-		<input type="text" name="stop_chosen"></input>
-		<input type="submit" value="find times!"></input>
+		<input id='form' type="text" name="stop_chosen"></input>
+		<input id='click' type="submit" value="Find times!"></input>
 	</form>
+<h3>Listed below are the servicable stops during your chosen route: </h3>
+<p>{{ stoplist }}</p>
 </body>
 </html>
