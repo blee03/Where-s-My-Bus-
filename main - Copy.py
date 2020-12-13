@@ -122,12 +122,17 @@ for z in range(0, len(temp2)):
     vRouteID.append(temp[0][z]['RouteId'])
 #class vehicle definition
 class vehicle:
-    def __init__(self, Id, lat, lon):
-        self.id = Id
-        self.lat = lat
-        self.lon = lon
+    def __init__(self,iD):
+        self.id = iD
 v = []
-vehicletemp = vehicle(vRouteID[0],vLat[0],vLon[0])
+vehicletemp = vehicle(vRouteID[0])
 v.append(vehicletemp)
 print(v)
-
+vehicle_list = temp
+#vehicle dictionary for index in original vehicle data
+vehicle_dict = {}
+count = 0
+print(temp)
+for i in range(0, len(temp[0])):
+    vehicle_dict[(temp[0][i]['RouteId'])] = count
+    count += 1
