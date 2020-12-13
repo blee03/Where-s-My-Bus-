@@ -1,4 +1,5 @@
-import http.client, urllib.request, urllib.parse, urllib.error, base64, json
+import http.client, urllib.request, urllib.parse, urllib.error, base64, json 
+from datetime import datetime
 headers = {
     # Request headers
     'Ocp-Apim-Subscription-Key': '617aa4d77c8b4d6e972688da30f0ea01',
@@ -133,7 +134,7 @@ def bus_ETA(val, route_num):
 
     eta_dict = {}
     for ID in rfsID:
-        current_time = temp[0][vehicle_dict[ID]]['VehicleReportTime']
+        current_time = temp[0][vehicle_dict[ID]]['VehicleReportTime'][12:19]
     
         params = urllib.parse.urlencode({
             # Request parameters
@@ -158,9 +159,18 @@ def bus_ETA(val, route_num):
                 arrivals.append(input_dict[keyVal])
         for i in range(0, len(arrivals[0])):
             if arrivals[0][i]['RouteId'] == ID:
-                temp_time = arrivals[0][i]['ScheduledTime']
-        
-        eta_dict[route_dict[ID]] = temp_time
+                temp_time = arrivals[0][i]['ScheduledTime'][12:19]
+        temp_time2 = datetime.strptime(temp_time, "%H:%M:%S")
+        temp_current = datetime.strptime(current_time, "%H:%M:%S")
+        time2 = temp_time2 - temp_current
+        s = time2.total_seconds()
+        print(s)
+        hours = s // 3600
+        s = s - (hours * 3600)
+        minutes = s // 60
+        seconds = s - (minutes * 60)
+
+        eta_dict[route_dict[ID]] = '{:02}:{:02}:{:02}'.format(int(hours), int(minutes), int(seconds))
 
     return eta_dict
 
