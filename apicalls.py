@@ -48,7 +48,6 @@ def grab_stops(val, Type):
     y = "')/Stops?%s"
     routeIDs = grab_routes("2")
     callroute = routeIDs[val]
-    route_num = val
     params = urllib.parse.urlencode({
         '$format': 'json'
     })
@@ -164,3 +163,4 @@ def bus_ETA(val, route_num):
         eta_dict[route_dict[ID]] = temp_time
 
     return eta_dict
+
